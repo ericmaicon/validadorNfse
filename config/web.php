@@ -9,6 +9,11 @@ $config = [
     'bootstrap' => ['log'],
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
     'components' => [
+        'request' => [
+            'enableCookieValidation' => true,
+            'enableCsrfValidation' => true,
+            'cookieValidationKey' => 'validadornfse',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

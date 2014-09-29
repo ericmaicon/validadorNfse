@@ -15,24 +15,11 @@
 	"minimum-stability": "beta",
 	"require": {
 		"php": ">=5.4.0",
-		"yiisoft/yii2": "*",
-		"yiisoft/yii2-bootstrap": "*",
-		"yiisoft/yii2-swiftmailer": "*"
+		"yiisoft/yii2": "2.0.0-rc"
 	},
 	"require-dev": {
-		"yiisoft/yii2-codeception": "*",
-		"yiisoft/yii2-debug": "*",
-		"yiisoft/yii2-gii": "*"
-	},
-	"suggest": {
-		"codeception/codeception": "Codeception, 1.8.*@dev is currently works well with Yii.",
-		"codeception/specify": "BDD style code blocks for PHPUnit and Codeception",
-		"codeception/verify": "BDD Assertions for PHPUnit and Codeception"
-	},
-	"scripts": {
-		"post-create-project-cmd": [
-			"yii\\composer\\Installer::setPermission"
-		]
+		"yiisoft/yii2-codeception": "2.0.0-rc",
+		"yiisoft/yii2-debug": "2.0.0-rc"
 	},
 	"config": {
 		"process-timeout": 1800
@@ -44,6 +31,10 @@
 		],
 		"executable": [
 			"yii"
-		]
+		],
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
 	}
 }
