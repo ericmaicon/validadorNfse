@@ -29,6 +29,8 @@ class SiteController extends Controller
             $doc->preservWhiteSpace = false;
             $doc->formatOutput = false;
             $doc->loadXml($model->xml, LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG);
+            
+            $validate = null;
             if(!$doc->schemaValidate(__DIR__ . '/../web/xsd/' . $pasta[$model->xsd])) {
                 $validate = libxml_get_errors();
             }
