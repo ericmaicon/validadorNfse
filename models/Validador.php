@@ -13,7 +13,7 @@ class Validador extends Model
     {
         return [
             [['xml', 'xsd'], 'required'],
-            [['xml'], 'validateXml']
+            [['xml'], 'validateXml'],
         ];
     }
 
@@ -24,7 +24,7 @@ class Validador extends Model
      * @param CModel $object the object being validated
      * @param string $attribute the attribute being validated
     **/
-    protected function validateXml($object, $attribute) {    
+    public function validateXml($object, $attribute) {    
         $file = CUploadedFile::getInstance($object, $attribute);
         if ($file) {
             $prev = libxml_use_internal_errors(true);
