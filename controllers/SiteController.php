@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Validador;
+use \DOMDocument;
 use \RecursiveIteratorIterator;
 use \RecursiveDirectoryIterator;
 
@@ -28,7 +29,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             libxml_use_internal_errors(true);
-            $doc = new \DOMDocument('1.0', 'utf-8');
+            $doc = new DOMDocument('1.0', 'utf-8');
             $doc->preservWhiteSpace = false;
             $doc->formatOutput = false;
             $doc->loadXml($model->xml, LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG);
