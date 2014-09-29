@@ -25,3 +25,4 @@ composer.lock
 
 #Yii
 runtime/
+web/assets/
