@@ -40,6 +40,7 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
+    'language' => 'pt-BR'
 ];
 
 if (YII_ENV_DEV) {

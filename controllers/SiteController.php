@@ -22,6 +22,7 @@ class SiteController extends Controller
     {
         $model = new Validador();
         $pasta = $this->readDir(__DIR__ . '/../web/xsd/');
+        $validate = null;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             libxml_use_internal_errors(true);
@@ -30,15 +31,16 @@ class SiteController extends Controller
             $doc->formatOutput = false;
             $doc->loadXml($model->xml, LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG);
             
-            $validate = null;
             if(!$doc->schemaValidate(__DIR__ . '/../web/xsd/' . $pasta[$model->xsd])) {
                 $validate = libxml_get_errors();
             }
 
-            return $this->render('index', ['model' => $model, 'pasta' => $pasta, 'validate' => $validate]);
-        } else {
-            return $this->render('index', ['model' => $model, 'pasta' => $pasta]);
+            if(is_null($validate)) {
+                $validate = true;
+            }
         }
+        
+        return $this->render('index', ['model' => $model, 'pasta' => $pasta, 'validate' => $validate]);
     }
 
     private function readDir($dir, $prefix = '') {

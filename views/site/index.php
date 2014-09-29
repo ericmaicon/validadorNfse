@@ -5,30 +5,16 @@ use yii\helpers\ArrayHelper;
 ?>
 
 <div class="container-fluid">
-    <?php $form = ActiveForm::begin(['id' => 'form', 'options' => ['class' => 'form-horizontal']]); ?>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">XML</label>
-            <div class="col-sm-11">
-                <?= Html::activeTextArea($model, 'xml', ['class' => 'form-control', 'style' => 'width: 100%; height: 200px;']) ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 control-label">XSD</label>
-            <div class="col-sm-11">
-                <?= Html::activeDropDownList($model, 'xsd', $pasta, ['class' => 'form-control']) ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-1 col-sm-11">
-                <?= Html::submitButton('Validar', ['class' => 'btn btn-primary', 'name' => 'button']) ?>
-            </div>
-        </div>
+    <?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($model, 'xml')->textarea(['class' => 'form-control', 'style' => 'width: 100%; height: 200px;']) ?>
+        <?= $form->field($model, 'xsd')->dropDownList($pasta, ['class' => 'form-control']) ?>
+        <?= Html::submitButton('Validar', ['class' => 'btn btn-primary', 'name' => 'button']) ?>
     <?php ActiveForm::end(); ?>
 </div>
 
 <?php if(isset($model->xsd) && isset($validate)) : ?>
     <div class="container-fluid" style="margin-top: 50px;">
-        <?php if(is_null($validate)) : ?>
+        <?php if($validate === true) : ?>
             <div class="alert alert-success">
                 XML validado com sucesso.
             </div>
