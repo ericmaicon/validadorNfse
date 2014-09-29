@@ -17,23 +17,10 @@ class Validador extends Model
         ];
     }
 
-    /**
-     * http://www.yiiframework.com/extension/is-xml-validator/
-     * Validates the attribute of the object.
-     * If there is any error, the error message is added to the object.
-     * @param CModel $object the object being validated
-     * @param string $attribute the attribute being validated
-    **/
     public function validateXml($object, $attribute) {    
-        $prev = libxml_use_internal_errors(true);
-        $xml = @simplexml_load_file($this->$attribute);
-        if (!$xml) {
-            $errors = array();
-            foreach (libxml_get_errors() as $xmlError) {
-                $errors[] = '[LIBXML:' . $xmlError->code . '] ' . $xmlError->message;
-            }
-            $object->addErrors(array($attribute => $errors));
+        $doc = @simplexml_load_string($this->$attribute);
+        if(!$doc) {
+            $this->addError($attribute, 'XMl inválido');
         }
-        libxml_use_internal_errors($prev);
     }
 }
