@@ -25,18 +25,15 @@ class Validador extends Model
      * @param string $attribute the attribute being validated
     **/
     public function validateXml($object, $attribute) {    
-        $file = CUploadedFile::getInstance($object, $attribute);
-        if ($file) {
-            $prev = libxml_use_internal_errors(true);
-            $xml = @simplexml_load_file($file->tempName);
-            if (!$xml) {
-                $errors = array();
-                foreach (libxml_get_errors() as $xmlError) {
-                    $errors[] = '[LIBXML:' . $xmlError->code . '] ' . $xmlError->message;
-                }
-                $object->addErrors(array($attribute => $errors));
+        $prev = libxml_use_internal_errors(true);
+        $xml = @simplexml_load_file($this->$attribute);
+        if (!$xml) {
+            $errors = array();
+            foreach (libxml_get_errors() as $xmlError) {
+                $errors[] = '[LIBXML:' . $xmlError->code . '] ' . $xmlError->message;
             }
-            libxml_use_internal_errors($prev);
+            $object->addErrors(array($attribute => $errors));
         }
+        libxml_use_internal_errors($prev);
     }
 }
