@@ -17,8 +17,10 @@ class Validador extends Model
         ];
     }
 
-    public function validateXml($object, $attribute) {    
-        $doc = @simplexml_load_string($this->$attribute);
+    public function validateXml($attribute, $params)
+    {  
+        $value = $this->$attribute;
+        $doc = @simplexml_load_string($value);
         if(!$doc) {
             $this->addError($attribute, 'XMl inválido');
         }
