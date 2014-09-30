@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Validador;
+use \DOMDocument;
+use \RecursiveIteratorIterator;
+use \RecursiveDirectoryIterator;
 
 class SiteController extends Controller
 {
@@ -26,11 +29,11 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             libxml_use_internal_errors(true);
-            $doc = new \DOMDocument('1.0', 'utf-8');
+            $doc = new DOMDocument('1.0', 'utf-8');
             $doc->preservWhiteSpace = false;
             $doc->formatOutput = false;
             $doc->loadXml($model->xml, LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG);
-            
+
             if(!$doc->schemaValidate(__DIR__ . '/../web/xsd/' . $pasta[$model->xsd])) {
                 $validate = libxml_get_errors();
             }
@@ -39,25 +42,24 @@ class SiteController extends Controller
                 $validate = true;
             }
         }
-        
+
         return $this->render('index', ['model' => $model, 'pasta' => $pasta, 'validate' => $validate]);
     }
 
-    private function readDir($dir, $prefix = '') {
-        $dir = rtrim($dir, '\\/');
-        $result = array();
+    /**
+     * @return string[]
+     */
+    private function readDir($dir)
+    {
+        $directory  = realpath($directory);
+        $files      = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+        $result     = [];
 
-        $h = opendir($dir);
-        while (($f = readdir($h)) !== false) {
-            if (substr($f, 0, 1) != '.') {
-                if (is_dir("$dir/$f")) {
-                    $result = array_merge($result, $this->readDir("$dir/$f", "$prefix$f/"));
-                } else {
-                    $result[] = $prefix.$f;
-                }
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                $result[] = ltrim(str_replace($directory, null, $file->getRealpath()), '/');
             }
         }
-        closedir($h);
 
         return $result;
     }
