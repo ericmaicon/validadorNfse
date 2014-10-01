@@ -51,7 +51,7 @@ class SiteController extends Controller
      */
     private function readDir($dir)
     {
-        $directory  = realpath($directory);
+        $directory  = realpath($dir);
         $files      = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
         $result     = [];
 
